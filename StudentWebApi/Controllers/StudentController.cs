@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentWebApi.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -7,6 +8,7 @@ namespace StudentWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class StudentController : ControllerBase
     {
 
@@ -17,7 +19,7 @@ namespace StudentWebApi.Controllers
 
         }
         // GET: api/<StudentController>
-        [HttpGet]
+        [HttpGet] 
         public  ActionResult  Get()
         {
             return Ok(_repo.GetStudents().ToList()); 
