@@ -8,7 +8,14 @@ namespace MVCClient.Controllers
 {
     public class StudentController : Controller
     {
+        private readonly ISession _session;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         // GET: StudentController
+        public StudentController(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _session = _httpContextAccessor.HttpContext.Session;
+        }
         public async Task<ActionResult> Index()
         {
             using (var client = new HttpClient())
@@ -18,6 +25,10 @@ namespace MVCClient.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 //GET Method
+                client.DefaultRequestHeaders.Authorization =
+new AuthenticationHeaderValue("Bearer",
+HttpContext.Session.GetString("token"));
+
                 List<Student> students = new List<Student>();
                 HttpResponseMessage response = await client.GetAsync("api/student");
                 if (response.IsSuccessStatusCode)

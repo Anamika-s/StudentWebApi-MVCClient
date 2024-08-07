@@ -47,7 +47,7 @@ namespace StudentWebApi.Controllers
 
 
 
-        public User GetUser(User user)
+        private User GetUser(User user)
         {
             var obj = _context.Users.FirstOrDefault(x => x.UserName.Equals(user.UserName) && x.Password.Equals(
                 user.Password));
